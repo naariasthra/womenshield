@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Safety Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/script.js"></script>
+</head>
+
+
+<body class="dashbg">
+
+    <script>
+
+let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!currentUser){
+
+alert("Please Login First!");
+
+window.location.href = "signin.html";
+
+}
+
+</script>
+
+<h1><i>Safety Dashboard</i></h1>
+</br></br>
+
+<button class="sos" onclick="sos()">SOS</button>
+
+
+</br></br>
+
+<div class="actions">
+<button onclick="toggleHelpline()">Help line</button>
+<div id="helplineBox" style="display:none; margin-top:20px;">
+
+<h2>🚨 Women Emergency Contacts</h2>
+
+<table border="1" width="100%" cellpadding="10">
+<tr>
+<th>Service</th>
+<th>Number</th>
+<th>Call</th>
+</tr>
+
+<tr>
+<td>Women Helpline</td>
+<td>1091</td>
+<td><a href="tel:1091">📞 Call</a></td>
+</tr>
+
+<tr>
+<td>Police</td>
+<td>100</td>
+<td><a href="tel:100">📞 Call</a></td>
+</tr>
+
+<tr>
+<td>Women Power Line</td>
+<td>1090</td>
+<td><a href="tel:1090">📞 Call</a></td>
+</tr>
+
+<tr>
+<td>Domestic Violence</td>
+<td>181</td>
+<td><a href="tel:181">📞 Call</a></td>
+</tr>
+
+<tr>
+<td>Child Helpline</td>
+<td>1098</td>
+<td><a href="tel:1098">📞 Call</a></td>
+</tr>
+
+<tr>
+<td>Ambulance</td>
+<td>102</td>
+<td><a href="tel:102">📞 Call</a></td>
+</tr>
+
+<tr>
+<td>National Emergency</td>
+<td>112</td>
+<td><a href="tel:112">📞 Call</a></td>
+</tr>
+
+</table>
+
+</div>
+
+<button onclick="siren()">Emergency Siren</button>
+<button onclick="getLocation()">Share Location</button>
+</div>
+
+
+<div id="location"></div>
+
+<script>
+
+const FORMSPREE_URL = "https://formspree.io/f/mojrrdle";
+
+function sos(){
+
+fetch(FORMSPREE_URL, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+message:
+"🚨 SOS ALERT!\\n\\n" +
+"Name: " + currentUser.name +
+"\\nPhone: " + currentUser.phone +
+"\\nEmail: " + currentUser.email +
+"\\n\\nUser pressed SOS button in Naari Asthra."
+})
+})
+.then(() => {
+alert("SOS Alert Sent Successfully!");
+})
+.catch(() => {
+alert("Error sending SOS");
+});
+
+}
+
+function siren(){
+
+let audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+
+audio.play();
+
+fetch(FORMSPREE_URL, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+message:
+"🔊 EMERGENCY SIREN ACTIVATED\\n\\n" +
+"Name: " + currentUser.name +
+"\\nPhone: " + currentUser.phone +
+"\\nEmail: " + currentUser.email +
+"\\n\\nUser activated emergency siren in Naari Asthra."
+})
+})
+.then(() => {
+console.log("Siren alert sent");
+})
+.catch(() => {
+console.log("Error sending siren alert");
+});
+
+}
+
+function getLocation(){
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+let lat = position.coords.latitude;
+let lon = position.coords.longitude;
+
+document.getElementById("location").innerHTML =
+"Latitude: " + lat +
+"<br>Longitude: " + lon;
+
+fetch(FORMSPREE_URL, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+message:
+"📍 EMERGENCY LOCATION ALERT\\n\\n" +
+"Name: " + currentUser.name +
+"\\nPhone: " + currentUser.phone +
+"\\nEmail: " + currentUser.email +
+"\\n\\nLatitude: " + lat +
+"\\nLongitude: " + lon +
+"\\n\\nGoogle Maps:\\nhttps://maps.google.com/?q=" + lat + "," + lon
+})
+})
+.then(() => {
+alert("Location Sent Successfully!");
+})
+.catch(() => {
+alert("Error sending location");
+});
+
+});
+
+}else{
+alert("Geolocation not supported");
+}
+
+}
+
+function toggleHelpline(){
+
+let box = document.getElementById("helplineBox");
+
+if(box.style.display === "none"){
+box.style.display = "block";
+}else{
+box.style.display = "none";
+}
+
+fetch(FORMSPREE_URL, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+message:
+"☎ HELPLINE OPENED\\n\\n" +
+"Name: " + currentUser.name +
+"\\nPhone: " + currentUser.phone +
+"\\nEmail: " + currentUser.email +
+"\\n\\nUser opened emergency helpline section."
+})
+})
+.then(() => {
+console.log("Helpline activity sent");
+})
+.catch(() => {
+console.log("Error sending helpline activity");
+});
+
+}
+
+
+</script>
+
+</body>
+</html>

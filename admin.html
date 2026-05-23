@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Naari Asthra Admin Panel</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body onload="loadUsers()">
+
+<script>
+let pass = prompt("Enter Admin Password");
+
+if(pass !== "admin123"){
+    alert("Access Denied");
+    window.location.href = "index.html";
+}
+</script>
+
+<header>
+<h1>Naari Asthra Admin Dashboard</h1>
+</header>
+
+<section class="panel">
+<center>
+    <h2>Registered Users</h2>
+</center>
+
+<table id="userTable">
+<thead>
+<tr>  
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Password</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
+</section>
+
+<script>
+function loadUsers(){
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+let tableBody = document.querySelector("#userTable tbody");
+
+tableBody.innerHTML = "";
+
+
+if(users.length === 0){
+    tableBody.innerHTML = "<tr><td colspan='4'>No Users Found</td></tr>";
+    return;
+}
+
+users.forEach(user => {
+
+    let row = `
+    <tr>
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.phone}</td>
+        <td>${user.password}</td>
+    </tr>
+    `;
+
+    tableBody.innerHTML += row;
+});
+
+}
+</script>
+
+</body>
+</html>

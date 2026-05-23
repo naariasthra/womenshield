@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Profile</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<style>
+body{
+background-image: url("images/3p.jpg");
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
+height: 100vh;
+}
+div{
+align-items: center;
+}
+</style>
+
+<body>
+
+<nav>
+<img src="images/girllogo.jpg" class="navlogo">
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="signup.html">Sign Up</a></li>
+<li><a href="signin.html">Sign In</a></li>
+<li><a href="profile.html">Profile</a></li>
+<li><a href="dashboard.html">Safety</a></li>
+<li><a href="admin.html">Admin</a></li>
+</ul>
+</nav>
+
+</br>
+
+<div class="formcard">
+
+<h2>User Profile</h2>
+
+<div id="profileContainer">
+<p><strong>Name:</strong> <span id="displayBtnName"></span></p>
+<p><strong>Phone:</strong> <span id="displayPhone"></span></p>
+<p><strong>Email:</strong> <span id="displayEmail"></span></p>
+</div>
+
+<div style="text-align:center; margin-top:30px;">
+<button onclick="logout()" class="logoutBtn">
+Logout
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function logout(){
+
+localStorage.removeItem("currentUser");
+
+alert("Logged Out Successfully");
+
+window.location.href = "index.html";
+
+}
+
+window.onload = function() {
+
+let user = JSON.parse(localStorage.getItem("currentUser"));
+
+if(user){
+document.getElementById('displayBtnName').innerText = user.name;
+document.getElementById('displayPhone').innerText = user.phone;
+document.getElementById('displayEmail').innerText = user.email;
+
+}
+}
+</script>
+
+</body>
+</html>
